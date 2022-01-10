@@ -15,7 +15,6 @@ class RequestIndex extends Component {
       Array(Number(requestCount))
         .fill(0)
         .map((element, index) => {
-          console.log(index)
           return campagin.methods.requests(index).call()
         }),
     )

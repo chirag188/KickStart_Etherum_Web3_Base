@@ -4,12 +4,17 @@ import Layout from '../components/Layout'
 import factory from '../Ethereum/factory'
 // import 'semantic-ui-css/semantic.min.css'
 import { Link } from '../routes'
-
+import web3 from '../Ethereum/web3'
 class CampaignIndex extends Component {
   static async getInitialProps() {
     const campaigns = await factory.methods.getDeployedCampaigens().call()
-    console.log(campaigns)
     return { campaigns }
+  }
+  fetchaccount = async () => {
+    try {
+      const accounts = await web3.eth.getAccounts()
+      console.log(accounts)
+    } catch (error) {}
   }
   renderCampaigns() {
     const items = this.props.campaigns.map((address) => {
@@ -30,7 +35,7 @@ class CampaignIndex extends Component {
     return (
       <Layout>
         <div>
-          <h4>Open Campaigns</h4>
+          <h4 onClick={() => this.fetchaccount()}>Open Campaigns</h4>
           <Link route="/campaigns/new">
             <a>
               <Button

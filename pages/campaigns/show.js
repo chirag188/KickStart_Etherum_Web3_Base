@@ -27,7 +27,6 @@ class CampaignShow extends Component {
       approvesCount,
       manager,
     } = this.props
-    console.log(this.props)
     const items = [
       {
         header: manager,
