@@ -10,7 +10,8 @@
     "test": "mocha",
     "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "next export"
   },
   "author": "",
   "license": "ISC",
