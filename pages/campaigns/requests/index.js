@@ -7,18 +7,21 @@ import web3 from '../../../Ethereum/web3'
 class RequestIndex extends Component {
   static async getInitialProps(props) {
     const { address } = props.query
-    const campagin = Campaign(address)
-    const requestCount = await campagin.methods.getRequestsCount().call()
-    const approvesCount = await campagin.methods.approvesCount().call()
-
-    const requests = await Promise.all(
-      Array(Number(requestCount))
-        .fill(0)
-        .map((element, index) => {
-          return campagin.methods.requests(index).call()
-        }),
-    )
-    return { address, requests, requestCount, approvesCount }
+    if(address){
+      const campagin = Campaign(address)
+      const requestCount = await campagin.methods.getRequestsCount().call()
+      const approvesCount = await campagin.methods.approvesCount().call()
+  
+      const requests = await Promise.all(
+        Array(Number(requestCount))
+          .fill(0)
+          .map((element, index) => {
+            return campagin.methods.requests(index).call()
+          }),
+      )
+      return { address, requests, requestCount, approvesCount }
+    }
+    return {}
   }
 
   onApprove = async (index) => {
@@ -34,7 +37,7 @@ class RequestIndex extends Component {
     await campagin.methods.finalizeRequest(index).send({ from: accounts[0] })
   }
   renderRows() {
-    return this.props.requests.map((request, index) => {
+    return this.props?.requests?.map((request, index) => {
       return (
         <Table.Row
           disabled={request.complete}

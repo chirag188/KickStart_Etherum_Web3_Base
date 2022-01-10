@@ -8,16 +8,20 @@ import { Link } from '../../routes'
 
 class CampaignShow extends Component {
   static async getInitialProps(props) {
-    const campaign = Campaign(props.query.address)
-    const summary = await campaign.methods.getSummary().call()
-    return {
-      address: props.query.address,
-      minimumContribution: summary[0],
-      balance: summary[1],
-      requestsCount: summary[2],
-      approvesCount: summary[3],
-      manager: summary[4],
+    const {address} = props.query;
+    if(address){
+      const campaign = Campaign(address)
+      const summary = await campaign.methods.getSummary().call()
+      return {
+        address: address,
+        minimumContribution: summary[0],
+        balance: summary[1],
+        requestsCount: summary[2],
+        approvesCount: summary[3],
+        manager: summary[4],
+      }
     }
+    return {}
   }
   renderCards = () => {
     const {
@@ -56,7 +60,7 @@ class CampaignShow extends Component {
         style: { overflowWrap: 'break-word' },
       },
       {
-        header: web3.utils.fromWei(balance, 'ether'),
+        header: balance && web3.utils.fromWei(balance, 'ether'),
         meta: 'Campaign Balance',
         description: 'the balnce of campaign',
         style: { overflowWrap: 'break-word' },
